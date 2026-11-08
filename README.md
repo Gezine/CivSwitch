@@ -43,7 +43,7 @@ Two components:
    The Pico types the chat XSS (~87 lines, ~20 min); the Remote JS Loader comes up on the console (TCP :9026) for that session.  
 2. **Install the persistent boot trigger** from the PC: `python installer-creator/install.py <console-ip>` — uploads the save template, splices the compressed payload into it on-console, wipes `save:/saves/Single/`, and writes the trigger.
 3. From then on, every boot: main menu -> Load Game -> the payload runs from savedata (and if the payload is the loader, :9026 is up at boot — and survives console sleep/wake).  
-4. You can revert system language after installer finished.  
+4. You can revert the system language after the installer has finished.  
 
 ## Sending payloads (`send_js.py`)
 
