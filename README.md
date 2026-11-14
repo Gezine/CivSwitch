@@ -34,9 +34,9 @@ Two components:
    
    NOTE for JP-only Switch2 : 
    1. If you have another Switch, you can connect the two consoles via local wireless multiplayer and plug the Pico on the other device, allowing it to send the payload over the network.  
-   2. If you're on a higher fw version (I'm not sure exact version), you can simply try plugging the Pico and see if it can type English text without changing the system language.  
+   2. Use jis builds of pico uf2 firmware and enable english input at on screen keyboard settings.  
    
-   Connect to Internet using [90DNS](https://gitlab.com/a/90dns) to block Nintendo servers.  
+   Connect to Internet using [90DNS](https://gitlab.com/a/90dns) to block Nintendo servers. (WARNING : YOU MUST READ 90DNS INSTRUCTION CAREFULLY, IF NOT GAME WILL BE LOCKED)  
    
    Then launch game and navigate main menu -> MULTIPLAYER -> WIRELESS -> CREATE GAME -> HOST LOBBY -> CHAT then plug the Pico in (in docked mode, focus the chat box first to receive Pico input).  
 
