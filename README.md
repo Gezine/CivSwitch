@@ -63,9 +63,7 @@ git clone --branch 2.3.1 --depth 1 --recurse-submodules --shallow-submodules htt
 export PICO_SDK_PATH=$HOME/pico-sdk
 cd PicoSwitch
 npm install                    # terser for compress.js
-node compress.js               # reads ../core.js -> payload.txt
-cmake --preset pico2 && cmake --build --preset pico2    # RP2350 -> build-pico2/src/civ7-pico2.uf2
-cmake --preset pico1 && cmake --build --preset pico1    # RP2040 -> build-pico1/src/civ7-pico1.uf2
+./build_all.sh                 # payload + all four variants: pico1/pico2 x us/jis
 ```
 
 ## Credits
