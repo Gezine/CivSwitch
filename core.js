@@ -1270,13 +1270,19 @@
             while (true) {
                 let current_ip = get_current_ip();
                 let announced = false;
-                while (current_ip === null) {
+                let ipTries = 0;
+                while (current_ip === null && ipTries < 8) {
                     if (!announced) {
                         await log("network down - waiting for network..");
                         announced = true;
                     }
                     await sleep(2000);
                     current_ip = get_current_ip();
+                    ipTries++;
+                }
+                if (current_ip === null) {
+                    await log("IP detection failed - listening anyway");
+                    current_ip = "0.0.0.0";
                 }
 
                 let sock_fd;
@@ -1299,14 +1305,25 @@
                 let badConns = 0;
                 while (true) {
                     try {
-                        await log("Awaiting payload at " + network_str);
+                        if (acceptFails === 0) {
+                            await log("Awaiting payload at " + network_str);
+                        }
 
                         write32(addrlen, 16);
                         const client_fd = accept(sock_fd, sockaddr_in, addrlen);
 
                         if (client_fd === -1n) {
                             acceptFails++;
-                            if (acceptFails >= 2) break;
+                            if (acceptFails === 1 || acceptFails % 100 === 0) {
+                                await log("accept failed (" + acceptFails + ") - retrying");
+                            }
+                            if (acceptFails === 30) {
+                                await log("accept still failing - resetting network");
+                                try { Network.resetNetworkCommunication(); } catch (e) {}
+                                break;
+                            }
+                            if (acceptFails >= 1800) break;
+                            await sleep(100);
                             continue;
                         }
                         acceptFails = 0;
@@ -1338,7 +1355,7 @@
                             await log(read_error ? "connection dropped" : "No valid data received");
                             close(client_fd);
                             badConns++;
-                            if (badConns >= 3) break;
+                            if (badConns >= 30) break;
                             continue;
                         }
                         badConns = 0;
