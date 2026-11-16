@@ -1,5 +1,23 @@
 # PicoSwitch (Macro build)
 
+## About this fork / このフォークについて
+
+This fork of Gezine/CivSwitch changes the PicoSwitch UF2 in two ways (everything else is upstream):
+
+1. **ipfix3 payload** — The loader the UF2 types is the ipfix3 `core.js` instead of the stock one: IP detection retries up to 8 times and then falls back to listening on `0.0.0.0` (`IP detection failed - listening anyway`) instead of waiting forever when the console's IP cannot be read; the payload-accept loop logs sparingly, resets the network after repeated accept failures, and stops cleanly.
+2. **Build options** — `PicoSwitch/build-uf2.sh` rebuilds the UF2 with selectable `--board`, `--layout us|jis`, `--ime none|grave|grave-each-line`, and `--payload`. The default (JIS + grave-each-line) is the configuration verified on a real Japanese console; upstream's `build_all.sh` cannot select the IME behaviour.
+
+Prebuilt UF2s (pico1/pico2 x JIS-IME/US) are attached to this fork's releases — the same builds that ship with kaiHEN Installer and were used on real hardware (Switch 2, firmware 23.0.1, Japanese console and the Japanese version of Civilization VII).
+
+このフォークでは PicoSwitch の UF2 に2つの改良を入れています (それ以外は upstream のままです)。
+
+1. **ipfix3 ペイロード** — UF2 が打ち込むローダーを標準の `core.js` から ipfix3 に変更。IP 検出は最大8回まで再試行し、読めない場合はログを出して `0.0.0.0` で待ち受けるため、永久に止まることがありません (`IP detection failed - listening anyway`)。受付ループもログ抑制・ネットワークリセット・正常な打ち切りを入れています。
+2. **ビルドオプション** — `PicoSwitch/build-uf2.sh` で `--board` / `--layout us|jis` / `--ime none|grave|grave-each-line` / `--payload` を選んで再ビルドできます。既定の JIS + grave-each-line は国内版本体で実機検証済みの構成で、upstream の `build_all.sh` では IME の挙動を選べません。
+
+ビルド済み UF2 (pico1/pico2 × JIS-IME/US) はこのフォークのリリースにあります。kaiHEN Installer に同梱され、実機 (Switch 2 / FW 23.0.1 / 国内版本体・日本版シヴィライゼーション7) で使われているものと同じビルドです。
+
+---
+
 Raspberry Pi Pico firmware (RP2350, or RP2040 for the Pico 1): Switch gamepad + USB keyboard macro that types the CIV7 chat-XSS payload once, ~10 s after boot (`MACRO_START_DELAY_MS` in `include/MacroEngine.h`).
 LED is lit while the macro runs.
 
