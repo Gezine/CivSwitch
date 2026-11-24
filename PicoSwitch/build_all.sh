@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Build every firmware variant: pico1/pico2/pico2_w x us/jis.
+# Build every firmware variant: pico1/pico1_w/pico2/pico2_w x us/jis.
 # Needs PICO_SDK_PATH set; run npm install once for compress.js.
 set -u
 cd "$(dirname "$0")"
@@ -27,18 +27,22 @@ fi
 build pico2     -DPICO_BOARD=pico2 -DCIV7_TARGET_NAME=civ7-pico2
 build pico2_w   -DPICO_BOARD=pico2_w -DCIV7_TARGET_NAME=civ7-pico2_w
 build pico1     -DPICO_BOARD=pico  -DCIV7_TARGET_NAME=civ7-pico1
+build pico1_w   -DPICO_BOARD=pico_w -DCIV7_TARGET_NAME=civ7-pico1_w
 build pico2-jis -DPICO_BOARD=pico2 -DCIV7_TARGET_NAME=civ7-pico2-jis -DCIV7_KEYBOARD_LAYOUT=jis
 build pico2_w-jis -DPICO_BOARD=pico2_w -DCIV7_TARGET_NAME=civ7-pico2_w-jis -DCIV7_KEYBOARD_LAYOUT=jis
 build pico1-jis -DPICO_BOARD=pico  -DCIV7_TARGET_NAME=civ7-pico1-jis -DCIV7_KEYBOARD_LAYOUT=jis
+build pico1_w-jis -DPICO_BOARD=pico_w -DCIV7_TARGET_NAME=civ7-pico1_w-jis -DCIV7_KEYBOARD_LAYOUT=jis
 
 echo
 echo "=== UF2 artifacts ==="
 for f in build-pico2/src/civ7-pico2.uf2 \
          build-pico2_w/src/civ7-pico2_w.uf2 \
          build-pico1/src/civ7-pico1.uf2 \
+         build-pico1_w/src/civ7-pico1_w.uf2 \
          build-pico2-jis/src/civ7-pico2-jis.uf2 \
          build-pico2_w-jis/src/civ7-pico2_w-jis.uf2 \
-         build-pico1-jis/src/civ7-pico1-jis.uf2; do
+         build-pico1-jis/src/civ7-pico1-jis.uf2 \
+         build-pico1_w-jis/src/civ7-pico1_w-jis.uf2; do
     if [ -f "$f" ]; then
         ls -la "$f" | awk '{printf "  %9d  %s\n", $5, $9}'
     else
