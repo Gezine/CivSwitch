@@ -22,7 +22,7 @@ set(PICO_NO_PICOTOOL 1 CACHE INTERNAL "picotool unusable on this host")
 project(civ7-pico C CXX ASM)
 
 if(NOT DEFINED CIV7_TARGET_NAME)
-    if(PICO_BOARD STREQUAL "pico2")
+    if(PICO_BOARD STREQUAL "pico2" OR PICO_BOARD STREQUAL "pico2_w")
         set(CIV7_TARGET_NAME civ7-pico2)
     else()
         set(CIV7_TARGET_NAME civ7-pico1)

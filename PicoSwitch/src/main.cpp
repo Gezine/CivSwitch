@@ -4,6 +4,7 @@
 #include "GamecubeController.h"
 #include "MacroEngine.h"
 #include "N64Controller.h"
+#include "StatusLed.h"
 #include "SwitchController.h"
 #include "pico/stdlib.h"
 
@@ -21,6 +22,7 @@
 
 int main() {
   stdio_init_all();
+  statusLedInit();
 
   Controller *controller;
 

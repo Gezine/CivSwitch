@@ -27,6 +27,7 @@
 
 #include <string.h>
 
+#include "StatusLed.h"
 #include "pico/stdlib.h"
 #include "tusb.h"
 
@@ -39,8 +40,6 @@ uint8_t const *tud_descriptor_device_cb(void) {
 static uint16_t _desc_str[32];
 
 void SwitchUsb::init() {
-  gpio_init(PICO_DEFAULT_LED_PIN);
-  gpio_set_dir(PICO_DEFAULT_LED_PIN, GPIO_OUT);
   tusb_init();
   while (true) {
     try {
@@ -159,7 +158,7 @@ void tud_hid_set_report_cb(uint8_t itf, uint8_t report_id,
     // Keyboard LED output report (Num/Caps/Scroll Lock); show Caps Lock on
     // the onboard LED as a liveness signal for the keyboard interface.
     if (report_type == HID_REPORT_TYPE_OUTPUT && bufsize > 0) {
-      gpio_put(PICO_DEFAULT_LED_PIN, (buffer[0] & KEYBOARD_LED_CAPSLOCK) != 0);
+      statusLedSet((buffer[0] & KEYBOARD_LED_CAPSLOCK) != 0);
     }
     return;
   }

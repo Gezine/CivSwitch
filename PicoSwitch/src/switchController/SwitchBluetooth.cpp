@@ -44,11 +44,6 @@ SwitchBtReport SwitchBluetooth::_switchBtReport = {
 
 void SwitchBluetooth::init(Controller *controller) {
   globalController = controller;
-  if (cyw43_arch_init()) {
-    printf("failed to initialise cyw43_arch\n");
-    return;
-  }
-
   gap_discoverable_control(1);
   gap_set_class_of_device(0x2508);
   gap_set_local_name("Pro Controller");

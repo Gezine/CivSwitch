@@ -1,14 +1,21 @@
 # Options:
 # CONTROLLER_TYPE: "Gamecube", "N64", "Switch" or "Macro" (default Macro)
 # SWITCH_BLUETOOTH: Remove for USB
+find_package(Python3 REQUIRED COMPONENTS Interpreter)
 add_compile_definitions(CONTROLLER_TYPE=\"Macro\")
+add_library(statusLed INTERFACE)
+target_include_directories(statusLed INTERFACE ${PROJECT_SOURCE_DIR}/include)
+target_link_libraries(statusLed INTERFACE pico_stdlib)
+if(PICO_BOARD STREQUAL "pico_w" OR PICO_BOARD STREQUAL "pico2_w")
+    target_link_libraries(statusLed INTERFACE pico_cyw43_arch_none)
+endif()
 add_subdirectory(otherController)
 add_subdirectory(switchController)
 add_subdirectory(macro)
 
 add_executable(${CIV7_TARGET_NAME} main.cpp)
 target_include_directories(${CIV7_TARGET_NAME} PUBLIC ${PROJECT_SOURCE_DIR}/include)
-target_link_libraries(${CIV7_TARGET_NAME} pico_stdlib switchBluetooth switchUsb n64 gamecube Switch macro)
+target_link_libraries(${CIV7_TARGET_NAME} pico_stdlib statusLed switchBluetooth switchUsb n64 gamecube Switch macro)
 
 pico_enable_stdio_usb(${CIV7_TARGET_NAME} 0)
 pico_enable_stdio_uart(${CIV7_TARGET_NAME} 1)
@@ -17,7 +24,7 @@ pico_enable_stdio_uart(${CIV7_TARGET_NAME} 1)
 set(PICO_NO_UF2 1)
 pico_add_extra_outputs(${CIV7_TARGET_NAME})
 
-if(PICO_BOARD STREQUAL "pico2")
+if(PICO_BOARD STREQUAL "pico2" OR PICO_BOARD STREQUAL "pico2_w")
     set(CIV7_UF2_FAMILY rp2350)
 else()
     set(CIV7_UF2_FAMILY rp2040)
