@@ -1,6 +1,7 @@
 # Options:
 # CONTROLLER_TYPE: "Gamecube", "N64", "Switch" or "Macro" (default Macro)
 # SWITCH_BLUETOOTH: Remove for USB
+find_package(Python3 REQUIRED COMPONENTS Interpreter)
 add_compile_definitions(CONTROLLER_TYPE=\"Macro\")
 add_library(statusLed INTERFACE)
 target_include_directories(statusLed INTERFACE ${PROJECT_SOURCE_DIR}/include)

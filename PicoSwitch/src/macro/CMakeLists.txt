@@ -1,7 +1,5 @@
 # macro_script.h is generated from payload.txt at build time; editing
 # payload.txt and rebuilding is enough to update the macro.
-find_package(Python3 REQUIRED COMPONENTS Interpreter)
-
 set(CIV7_KEYBOARD_LAYOUT "us" CACHE STRING "Host keyboard layout: us or jis")
 set_property(CACHE CIV7_KEYBOARD_LAYOUT PROPERTY STRINGS us jis)
 set(CIV7_IME_OFF "none" CACHE STRING "Before each line: none or lang2 (experimental)")
