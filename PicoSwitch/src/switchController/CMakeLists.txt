@@ -1,5 +1,5 @@
 add_library(switchUsb SwitchUsb.cpp)
-target_link_libraries(switchUsb pico_stdlib hardware_pio tinyusb_device)
+target_link_libraries(switchUsb pico_stdlib hardware_pio tinyusb_device statusLed)
 target_include_directories(switchUsb PUBLIC ${PROJECT_SOURCE_DIR}/include)
 
 # Bluetooth needs the Pico W's CYW43 chip; on other boards provide an empty

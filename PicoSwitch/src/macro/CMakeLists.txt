@@ -59,6 +59,6 @@ add_custom_command(
 )
 
 add_library(macro MacroEngine.cpp ${MACRO_SCRIPT})
-target_link_libraries(macro pico_stdlib hardware_pio tinyusb_device)
+target_link_libraries(macro pico_stdlib hardware_pio tinyusb_device statusLed)
 target_include_directories(macro BEFORE PRIVATE "${CMAKE_CURRENT_BINARY_DIR}/generated")
 target_include_directories(macro PUBLIC ${PROJECT_SOURCE_DIR}/include)

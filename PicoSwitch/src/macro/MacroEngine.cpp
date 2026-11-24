@@ -1,11 +1,10 @@
 #include "MacroEngine.h"
 
+#include "StatusLed.h"
 #include "macro_script.h"
 
 void MacroEngine::init() {
-  gpio_init(PICO_DEFAULT_LED_PIN);
-  gpio_set_dir(PICO_DEFAULT_LED_PIN, GPIO_OUT);
-  gpio_put(PICO_DEFAULT_LED_PIN, false);
+  statusLedSet(false);
 }
 
 void MacroEngine::getSwitchUsbReport(SwitchUsbReport *switchUsbReport) {
@@ -72,7 +71,7 @@ void MacroEngine::tick() {
   if (!_running) {
     if (now < MACRO_START_DELAY_MS) return;  // armed, outputs stay neutral
     _running = true;
-    gpio_put(PICO_DEFAULT_LED_PIN, true);
+    statusLedSet(true);
     _step = 0;
     _stepEnd = now;  // makes the loop below load step 0 immediately
     _stepLoaded = false;
@@ -83,7 +82,7 @@ void MacroEngine::tick() {
     if (step.op == MACRO_OP_END) {
       _finished = true;
       neutralOutputs();
-      gpio_put(PICO_DEFAULT_LED_PIN, false);
+      statusLedSet(false);
       return;
     }
     if (!_stepLoaded) {

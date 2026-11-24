@@ -2,6 +2,7 @@
 
 Raspberry Pi Pico firmware (RP2350, or RP2040 for the Pico 1): Switch gamepad + USB keyboard macro that types the CIV7 chat-XSS payload once, ~10 s after boot (`MACRO_START_DELAY_MS` in `include/MacroEngine.h`).
 LED is lit while the macro runs.
+On Pico 2 W, the CYW43 wireless chip is initialized to control the onboard LED; the default macro still uses USB, not Bluetooth.
 
 ## Payload pipeline
 
