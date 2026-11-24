@@ -23,7 +23,7 @@ After it runs, send the persistent installer from the PC with `../installer-crea
 
 ## Build
 
-Both boards build from this one tree via `CMakePresets.json` — `cmake --preset pico2` (RP2350, default board) and `cmake --preset pico1` (RP2040, ~744 KB image, fits the Pico 1's 2 MB flash) — each into its own build directory.
+All boards build from this one tree via `CMakePresets.json` — `cmake --preset pico2` (RP2350), `cmake --preset pico2_w` (RP2350 with CYW43 wireless), and `cmake --preset pico1` (RP2040, ~744 KB image, fits the Pico 1's 2 MB flash) — each into its own build directory.
 
 Needs the pico-sdk (set `PICO_SDK_PATH`; 2.3.1), ARM toolchain, Ninja, Node + terser, and a modern host gcc.
 
@@ -34,13 +34,14 @@ node compress.js                                   # reads ../core.js -> payload
 python tools/make_payload.py <payload.js>         # optional: stage a custom payload into ../core.js
 export PICO_SDK_PATH=<sdk>
 cmake --preset pico2 && cmake --build --preset pico2
+cmake --preset pico2_w && cmake --build --preset pico2_w
 cmake --preset pico1 && cmake --build --preset pico1
 ```
 
 Default builds type US-layout keystrokes. For JP consoles build the JIS variant (the layout is compiled into the macro - one UF2 per console region), for either board: `cmake -B build-pico2-jis -G Ninja -DPICO_BOARD=pico2 -DCIV7_TARGET_NAME=civ7-pico2-jis -DCIV7_KEYBOARD_LAYOUT=jis && cmake --build build-pico2-jis` (for Pico 1 use `-DPICO_BOARD=pico -DCIV7_TARGET_NAME=civ7-pico1-jis -B build-pico1-jis`).
 
 On Ubuntu 24.04 the full toolchain installs with `sudo apt install -y git build-essential cmake ninja-build gcc-arm-none-eabi libnewlib-arm-none-eabi libstdc++-arm-none-eabi-newlib python3 nodejs npm`.
-Or build all four variants at once (payload + pico1/pico2 x us/jis) with `./build_all.sh`.
+Or build all six variants at once (payload + pico1/pico2/pico2_w x us/jis) with `./build_all.sh`.
 On Windows, prefix the cmake commands with a modern mingw FIRST on PATH (`PATH=<modern-mingw>/bin:$PATH cmake ...`) — CMake may otherwise pick an ancient host gcc that cannot build pioasm.
 
 UF2 generation does not use picotool (its `uf2 convert` segfaults on some hosts): the build packs the UF2 straight from the .bin with `pack_uf2.py`, byte-identical to picotool's output on both platforms (rp2040 data blocks; rp2350-arm-s data blocks plus the RP2350-E10 abs block with its RP2-ignore-block extension tag). To pack one manually:

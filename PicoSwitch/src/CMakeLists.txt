@@ -17,7 +17,7 @@ pico_enable_stdio_uart(${CIV7_TARGET_NAME} 1)
 set(PICO_NO_UF2 1)
 pico_add_extra_outputs(${CIV7_TARGET_NAME})
 
-if(PICO_BOARD STREQUAL "pico2")
+if(PICO_BOARD STREQUAL "pico2" OR PICO_BOARD STREQUAL "pico2_w")
     set(CIV7_UF2_FAMILY rp2350)
 else()
     set(CIV7_UF2_FAMILY rp2040)

@@ -4,7 +4,7 @@ target_include_directories(switchUsb PUBLIC ${PROJECT_SOURCE_DIR}/include)
 
 # Bluetooth needs the Pico W's CYW43 chip; on other boards provide an empty
 # interface library so linking keeps working (USB mode only).
-if (PICO_BOARD STREQUAL "pico_w")
+if (PICO_BOARD STREQUAL "pico_w" OR PICO_BOARD STREQUAL "pico2_w")
   add_library(switchBluetooth SwitchBluetooth.cpp)
   target_link_libraries(switchBluetooth 
     pico_stdlib
